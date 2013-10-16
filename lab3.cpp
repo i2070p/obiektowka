@@ -20,6 +20,7 @@ public:
         string getInicialy();
 		string getOceny();
 		string getNrgr();
+		void Display();
 		void setStudent(string, int, int*);
 
 }   ;             
@@ -74,6 +75,13 @@ string Student::getOceny()
 		s2 << tmp_tab[i] << " ";
 	}
 	return s2.str();
+}
+
+void Student::Display()
+{
+	cout << getInicialy() << endl;
+	cout << getNrgr() << endl;
+	cout << getOceny();
 }
 
 //Grupa
