@@ -81,7 +81,7 @@ void Student::Display()
 {
 	cout << getInicialy() << endl;
 	cout << getNrgr() << endl;
-	cout << getOceny();
+	cout << getOceny() << endl;
 }
 
 //Grupa
@@ -97,6 +97,7 @@ public:
 	~Group();
 	Group(Group &);
 	void getList();
+	void add(int, string, int, int*);
 
 };
 
@@ -114,19 +115,25 @@ Group::Group(Group &source)
 
 Group::~Group(){;}
 
+void Group::add(int _place, string _inicialy, int _nrgr, int* o)
+{
+	list[_place] = Student(_inicialy,  _nrgr, o);
+}
+
 void Group::getList()
 {
 	for(int i=0; i<amount; i++)
 	{
-		list[i].getInicialy;
-		list[i].getNrgr;
-		list[i].getOceny;
+		// list[i].Display();
+		cout <<	list[i].getInicialy() << endl;
+		cout <<	list[i].getNrgr() << endl;
+		cout <<	list[i].getOceny() << endl; 
 	}
 }
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	string s;
+/*	string s;
 	int x;
 	int y[10];
 
@@ -142,8 +149,28 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	Student student1 = Student(s,x,y);
 	cout << student1.getInicialy()<<endl;
-	cout << student1.getNrgr()<<endl;
-	cout << student1.getOceny()<<endl;
+*/	
+ Group grupa1 = Group(5);
+	Group grupa2 = Group(5);
 
+	int student1_oceny[10];
+	for(int i=0;i<10;i++)
+	{
+		student1_oceny[i] = rand() % 4+2;
+		//cout << student1_oceny[i] << endl;
+
+	}
+
+	for(int i=0;i<5;i++)
+	{
+		grupa1.add(i,"mw",210,student1_oceny);
+	}
+    grupa1.getList(); 
+
+
+/*  Student guwniak = Student("mw",210,student1_oceny);
+	cout<<guwniak.getInicialy();
+	cout<<guwniak.getNrgr();
+	cout<<guwniak.getOceny(); */
         system("pause");
 }
