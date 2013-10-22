@@ -115,10 +115,12 @@ Group::Group(int _number)
 
 Group::Group(Group &source)
 {
+	
 	list = new Student[source.amount];
 	for(int i=0;i<source.amount;i++)
 	{
-		list[i] = source.list[i];
+		Student s(source.list[i]);
+		list[i] = s;
 	}
 }
 
@@ -161,7 +163,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		grupa1.add(i,"mw",210,student1_oceny);
 	}
 
-	cout << "Grupa 1: "<< endl;
+	cout << "Grupa 1:"<< endl;
     grupa1.getList(); 
 
 	int student2_oceny[10];
@@ -175,14 +177,19 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		grupa2.add(i,"pb",120,student2_oceny);
 	}
-	cout << "Grupa 2: " << endl;
+	cout << "Grupa 2:" << endl;
     grupa2.getList(); 
 
 
-	cout << "Grupa 3: " << endl;
+	cout << "Grupa 3:" << endl;
 	Group grupa3 = Group(grupa2);
 	grupa3.getList();
 
+
+	/*Student uno = Student("ch",110,student2_oceny);
+	Student duo = Student(uno);
+	duo.Display();
+	*/
 
         system("pause");
 }
