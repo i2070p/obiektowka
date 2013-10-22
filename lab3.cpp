@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <time.h> 
 
 using namespace std;
 // Student
@@ -36,7 +37,11 @@ Student::~Student(){;}
 Student::Student(Student &source)
 {
 	nrgr=source.nrgr;
-	oceny = source.oceny;
+	oceny = new int[10];
+	for (int i=0;i<10; i++)
+	{
+	oceny[i] = source.oceny[i];
+	}
 	inicialy = source.inicialy;
 }
 
@@ -103,14 +108,18 @@ public:
 
 Group::Group(int _number)
 {
-	int amount = _number;
+	amount = _number;
 	list = new Student[amount];
 
 }
 
 Group::Group(Group &source)
 {
-	list= source.list;
+	list = new Student[source.amount];
+	for(int i=0;i<source.amount;i++)
+	{
+		list[i] = source.list[i];
+	}
 }
 
 Group::~Group(){;}
@@ -118,6 +127,9 @@ Group::~Group(){;}
 void Group::add(int _place, string _inicialy, int _nrgr, int* o)
 {
 	list[_place] = Student(_inicialy,  _nrgr, o);
+ /* cout << list[_place].getInicialy()<<endl;
+	cout << list[_place].getNrgr()<<endl;
+	cout << list[_place].getOceny()<<endl; */
 }
 
 void Group::getList()
@@ -133,23 +145,7 @@ void Group::getList()
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-/*	string s;
-	int x;
-	int y[10];
-
-	cout << "Podaj inicialy Studenta: "<<endl;
-	cin >> s;
-	cout << "Podaj grupe Studenta: "<<endl;
-	cin >> x;
-	for (int i=0;i<10;i++)
-	{
-		cout << "Podaj ocene nr "<< i+1 << " Studenta: "<<endl;
-		cin >> y[i];
-	}
-
-	Student student1 = Student(s,x,y);
-	cout << student1.getInicialy()<<endl;
-*/	
+	
  Group grupa1 = Group(5);
 	Group grupa2 = Group(5);
 
@@ -157,7 +153,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	for(int i=0;i<10;i++)
 	{
 		student1_oceny[i] = rand() % 4+2;
-		//cout << student1_oceny[i] << endl;
 
 	}
 
@@ -165,12 +160,29 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		grupa1.add(i,"mw",210,student1_oceny);
 	}
+
+	cout << "Grupa 1: "<< endl;
     grupa1.getList(); 
 
+	int student2_oceny[10];
+	for(int i=0;i<10;i++)
+	{
+		student2_oceny[i] = rand() % 4+2;
 
-/*  Student guwniak = Student("mw",210,student1_oceny);
-	cout<<guwniak.getInicialy();
-	cout<<guwniak.getNrgr();
-	cout<<guwniak.getOceny(); */
+	}
+
+	for(int i=0;i<5;i++)
+	{
+		grupa2.add(i,"pb",120,student2_oceny);
+	}
+	cout << "Grupa 2: " << endl;
+    grupa2.getList(); 
+
+
+	cout << "Grupa 3: " << endl;
+	Group grupa3 = Group(grupa2);
+	grupa3.getList();
+
+
         system("pause");
 }
