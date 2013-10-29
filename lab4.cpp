@@ -13,7 +13,7 @@ using namespace std;
 
 
 
-// Student
+//*************************************Student************
 class Student{
 private:
         int nrgr;
@@ -28,6 +28,7 @@ public:
         ~Student();
         string getInicialy();
                 string getOceny();
+				string getOceny1();
                 string getNrgr();
                 void Display();
                 void setStudent(string, int, int*);
@@ -90,6 +91,19 @@ string Student::getOceny()
         return s2.str();
 }
 
+string Student::getOceny1()
+{   
+        stringstream s2;
+        int* tmp_tab = new int[10];
+        string temp;
+        for(int i=0; i<10;i++)
+        {
+                tmp_tab[i]=oceny[i];
+                s2 << tmp_tab[i] << ";";
+        }
+        return s2.str();
+}
+
 void Student::Display()
 {
         cout << getInicialy() << endl;
@@ -97,7 +111,7 @@ void Student::Display()
         cout << getOceny() << endl;
 }
 
-//Grupa
+//*************************************Grupa************
 
 class Group
 {
@@ -109,9 +123,11 @@ public:
         Group(int);
         ~Group();
         Group(Group &);
-		//Group(string);
+                //Group(string);
         void getList();
         void add(int, string, int, int*);
+		void readfile(string);
+		void writefile(string);
 
 };
 
@@ -124,7 +140,7 @@ Group::Group(int _number)
 
 Group::Group(Group &source)
 {
-		amount = source.amount;
+                amount = source.amount;
         list = new Student[source.amount];
         for(int i=0;i<source.amount;i++)
         {
@@ -147,81 +163,131 @@ void Group::getList()
 {
         for(int i=0; i<amount; i++)
         {
-                // list[i].Display();
+             // list[i].Display();
                 cout <<        list[i].getInicialy() << endl;
                 cout <<        list[i].getNrgr() << endl;
                 cout <<        list[i].getOceny() << endl; 
         }
 }
 
-void readfile(string file)
+void Group::readfile(string file)
 {
-	string inicials,tmp;
-	int nrgroup;
-	int grades[10];
-	int j=0,k=0,linenr=0;
+       
+		
 
-	ifstream Inputfile(file);
-	if(!Inputfile.is_open())
+        ifstream Inputfile(file);
+        if(!Inputfile.is_open())
+        {
+                throw exception("Can't read file");                        
+        }
+               string line;
+				int linenr=0;
+                while(!Inputfile.eof())
+                { 
+//*************************************Deklaracje************
+					string inicials="",tmp="";
+					int nrgroup=0;
+					 int* grades = new int[10];
+					 
+					int left = 0,right = 0;
+					int size=0,pointer=0;
+
+//*************************************~Deklaracje************
+                        Inputfile >> line;
+						while (line[right]!= 0)
+						{
+							right++;
+							size++;
+						}
+						while(line[left]!=';')
+						{
+							inicials += line[left];
+							left++;
+						}
+						nrgroup = line[left+1]-48;
+
+					for(int i=left+3; i<size; i++ )
+						{
+							if(line[i]==';')
+							{
+								pointer++;
+							}
+							else
+							{
+								grades[pointer]=line[i]-48;
+							}	
+						}
+					add(linenr,inicials,nrgroup,grades);
+					linenr++;
+                       
+                }
+        
+}
+
+void Group::writefile(string number)
+{
+	string times=""; 
+	int temp;
+	struct tm now;
+	time_t t=time(0);
+	localtime_s(&now, &t);
+	ostringstream ss;
+	ss << number;
+	ss << "-";
+	temp=now.tm_hour;
+	ss << temp;
+	temp=now.tm_min;
+	ss << temp;
+	temp=now.tm_sec;
+	ss << temp;
+	times+=ss.str();
+
+	string filename="";
+	filename+="grupa-";
+	filename+=times;
+	filename+=".txt";
+
+	ofstream outputfile(filename);
+	if(!outputfile.is_open())
 	{
-		throw exception("Can't read file");			
+		throw exception("Can't read file");
 	}
-	if(true)
-	{
-		string line;
-		while(!Inputfile.eof())
-		{
-			Inputfile >> line;
-			char n = ' ';
-			
-			while(n != ';')
-			{
-				n=line[j];
-				inicials += n;
-				j++;
-			}
 
-			while(n != ';')
-			{
-				n=line[j];
-				tmp += n;
-				j++;
-			}
-			istringstream iss(tmp);
-			iss >> nrgroup;
-			tmp="";
-			while(n != ';')
-			{
-				n=line[j];
-				istringstream iss(n);
-				iss >> grades[k];
-				j++;
-				k++;
-			}
-			linenr++;
+	for(int i=0; i<5; i++)
+	{
+		if(i!=4) 
+		{
+			outputfile << list[i].getInicialy() << ";"<< list[i].getNrgr()<<";"<<list[i].getOceny1()<<endl;
+		}
+		else
+		{
+			outputfile << list[i].getInicialy() << ";"<< list[i].getNrgr()<<";"<<list[i].getOceny1();
 		}
 	}
+	outputfile.close();
+
 }
+
 
 int linecount(string file)
 {
-	int licznik=0;
-	string tmp;
-	ifstream in(file);
-	if(!in.is_open())
-	{
-		throw exception("Can't read file");			
-	}
-	if(true)
-	{
-		while(!in.eof())
-		{
-			getline(in,tmp);
-			licznik++;
-		}
+        int licznik=0;
+        string tmp;
+        ifstream in(file);
+        if(!in.is_open())
+        {
+                throw exception("Can't read file");                        
+        }
+        if(true)
+        {
+                while(!in.eof())
+                {
+                        getline(in,tmp);
+                        licznik++;
+                }
 
-	}
-	return licznik;
+        }
+        return licznik;
 }
 
 
@@ -271,12 +337,38 @@ int _tmain(int argc, _TCHAR* argv[])
         duo.Display();
         */
 
-		cout << endl << endl;
+                cout << endl << endl;
 
-		cout<< linecount("plik1.txt");
+                cout<< linecount("plik1.txt");
 
-		cout << endl << endl;
+                cout << endl << endl;
+
+				Group grupa4 = Group(5);
+				grupa4.readfile("plik1.txt");
+				grupa4.getList();
+				grupa4.writefile("5");
 
         system("pause");
 
 }
+
+/*
+plik1.txt
+
+MW;5;2;2;3;4;4;5;5;2;3;3;
+MJ;5;2;2;3;4;4;5;5;2;3;3;
+WS;5;1;1;2;2;3;3;5;4;5;2;
+CK;5;2;2;3;4;4;5;5;2;3;3;
+GS;5;1;1;2;2;3;4;5;4;3;2;
+
+przykladowy plik wynikowy
+
+grupa-5-205330
+MW;5;2;2;3;4;4;5;5;2;3;3;
+MJ;5;2;2;3;4;4;5;5;2;3;3;
+WS;5;1;1;2;2;3;3;5;4;5;2;
+CK;5;2;2;3;4;4;5;5;2;3;3;
+GS;5;1;1;2;2;3;4;5;4;3;2;
+
+;
+
