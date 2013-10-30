@@ -80,6 +80,8 @@ class Matrix
 private:
 	int field_num;
 	Room* position;
+	int patern[3][3];
+	Room*** rooms;
 
 public:
 	Matrix(int);
@@ -97,6 +99,12 @@ public:
 Matrix::Matrix(int _field_num)
 {
 	field_num = _field_num;
+	rooms = new Room**[3];
+	for(int i=0;i<3;i++)
+	{
+
+	}
+
 
 }
 
