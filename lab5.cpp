@@ -110,31 +110,64 @@ void Matrix::setPosition(Room* _position)
 
 void Matrix::goNorth()
 {
+	if(position->getNorth!=NULL)
+	{
 	position = position->getNorth();
 	position->setViewed(true);
+	}
 }
 
 void Matrix::goEast()
 {
+	if(position->getEast!=NULL)
+	{
 	position = position->getEast();
 	position->setViewed(true);
+	}
 }
 
 void Matrix::goSouth()
 {
+	if(position->getSouth!=NULL)
+	{
 	position = position->getSouth();
 	position->setViewed(true);
+	}
 }
 
 void Matrix::goWest()
 {
+	if(position->getWest!=NULL)
+	{
 	position = position->getWest();
 	position->setViewed(true);
+	}
 }
 
 void Matrix::movement(char direction)
 {
-	case 
+	switch (direction)
+	{
+	case 'n':
+		goNorth();
+			break;
+
+	case 'e':
+		goEast();
+			break;
+
+	case 's':
+		goSouth();
+			break;
+
+	case 'w':
+		goWest();
+			break;
+
+	default:
+		cout<<"Niema takiego kierunku" << endl << "Dopuszczalne kierunki: n, e, s, w"<< endl;
+		break;
+	}
 }
 
 
