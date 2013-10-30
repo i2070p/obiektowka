@@ -110,7 +110,7 @@ void Matrix::setPosition(Room* _position)
 
 void Matrix::goNorth()
 {
-	if(position->getNorth!=NULL)
+	if(position->getNorth()!=NULL)
 	{
 	position = position->getNorth();
 	position->setViewed(true);
@@ -119,7 +119,7 @@ void Matrix::goNorth()
 
 void Matrix::goEast()
 {
-	if(position->getEast!=NULL)
+	if(position->getEast()!=NULL)
 	{
 	position = position->getEast();
 	position->setViewed(true);
@@ -128,7 +128,7 @@ void Matrix::goEast()
 
 void Matrix::goSouth()
 {
-	if(position->getSouth!=NULL)
+	if(position->getSouth()!=NULL)
 	{
 	position = position->getSouth();
 	position->setViewed(true);
@@ -137,7 +137,7 @@ void Matrix::goSouth()
 
 void Matrix::goWest()
 {
-	if(position->getWest!=NULL)
+	if(position->getWest()!=NULL)
 	{
 	position = position->getWest();
 	position->setViewed(true);
@@ -174,5 +174,6 @@ void Matrix::movement(char direction)
 int _tmain(int argc, _TCHAR* argv[])
 {
 	system("pause");
+	Matrix matryca = Matrix(3);
 }
 
